@@ -5,9 +5,11 @@ import { auth } from '../firebase';
 
 
 const Login = () => {
+
     const [err, setErr] = useState(false);
     const navigate = useNavigate();
 
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         const email = e.target[0].value;
@@ -21,19 +23,19 @@ const Login = () => {
             console.log(err);
             setErr(true);
         }
+    };
 
-
-    }
     return (
         <div className='formContainer'>
             <div className="formWrapper">
                 <span className='logo'>Chat Application</span>
-                <span className='title'>Register</span>
+                <span className='title'>Login</span>
                 <form onSubmit={handleSubmit} className='form' action="">
                     <input type="text" placeholder='Email' />
                     <input type="password" placeholder='Password' />
-                    <button>Sign In</button>
+                    <button >Sign In</button>
                     {err && <span className='err'>Something went wrong!</span>}
+
                 </form>
                 <p>Do don't Have an Account ?
                     <Link to="/register">
@@ -45,4 +47,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Login;
