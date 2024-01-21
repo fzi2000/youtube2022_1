@@ -37,7 +37,7 @@ const Login = () => {
                     {err && <span className='err'>Something went wrong!</span>}
 
                 </form>
-                <p>Do don't Have an Account ?
+                <p>Don't Have an Account ?
                     <Link to="/register">
                         Register
                     </Link>

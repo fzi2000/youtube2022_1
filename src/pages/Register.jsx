@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { auth, storage, db } from '../firebase';
-import { FcAddImage } from 'react-icons/fc'
+// import { FcAddImage } from 'react-icons/fc'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from 'firebase/firestore';
 import { useNavigate, Link } from 'react-router-dom';
@@ -66,7 +66,7 @@ const Register = () => {
                     <input type="password" placeholder='Password' />
                     <input style={{ display: "none" }} type="file" name="" id="file" />
                     <label htmlFor="file">
-                        <FcAddImage size={32} className='uploadIcon' />
+                        {/* <FcAddImage size={32} className='uploadIcon' /> */}
                         <span>Add an Avatar</span>
                     </label>
                     <button>Sign Up</button>

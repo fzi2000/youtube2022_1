@@ -1,32 +1,32 @@
-import React, { useContext } from 'react'
-import { BsFillCameraFill } from 'react-icons/bs'
-import { AiOutlineUserAdd } from 'react-icons/ai'
-import { GrMoreVertical } from 'react-icons/gr'
-import Messages from './Messages'
-import Input from './Input'
+import React, {useContext} from "react";
+import Cam from "../img/cam.png";
+import Add from "../img/add.png";
+import More from "../img/more.png";
+import Messages from "./Messages";
+import Input from "./Input";
 import { ChatContext } from '../Context/ChatContext'
-const Chat = () => {
 
+
+
+const Chat = () => {
   const { data } = useContext(ChatContext);
-  console.log(data);
+console.log(data);
 
   return (
-    <div className='chat'>
+    <div className="chat">
       <div className="chatInfo">
-        <span>
-          {data.user?.displayName}
-        </span>
+        <span>{data.user?.displayName}</span>
         <div className="chatIcons">
-          <BsFillCameraFill size={24} />
-          <AiOutlineUserAdd size={24} />
-          <GrMoreVertical size={24} />
+          <img src={Cam} alt="" />
+          <img src={Add} alt="" />
+          <img src={More} alt="" />
         </div>
-
+      
       </div>
-      <Messages />
-      <Input />
+      <Messages/>
+      <Input/>
     </div>
-  )
-}
+  );
+};
 
-export default Chat
+export default Chat;
