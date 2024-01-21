@@ -4,6 +4,7 @@ import { AuthContext } from "../Context/AuthContext";
 import { ChatContext } from "../Context/ChatContext";
 import { db } from "../firebase";
 
+//new_user@gmail.com , new_user 
 const Chats = () => {
   const [chats, setChats] = useState([]);
 
@@ -28,7 +29,7 @@ const Chats = () => {
     dispatch({ type: "CHANGE_USER", payload: u });
   };
 
-  console.log(chats)
+  // console.log(chats)
   // console.log(Object.entries(chats))
   return (
     <div className="chats">
