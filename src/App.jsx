@@ -5,6 +5,9 @@ import Home from "./pages/Home";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthContext } from "./Context/AuthContext";
 import './Style.scss';
+import Chat from "./components/Chat";
+// import VideoPage from "./components/VideoPage";
+import Video from "./components/Video";
 
 function App() {
 
@@ -15,6 +18,7 @@ function App() {
   }
 
   return <Router>
+    {/* <Switch> */}
     <Routes>
       <Route path="/" element={
         <ProtectedRoute>
@@ -23,7 +27,10 @@ function App() {
       } />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/video" element={<Video />} />
+      <Route path="/chat" component={Chat} />
     </Routes>
+    {/* </Switch> */}
   </Router>;
 }
 

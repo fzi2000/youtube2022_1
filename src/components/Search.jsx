@@ -49,6 +49,7 @@ const Search = () => {
       const res = await getDoc(doc(db, "chats", combinedId));
 
       if (!res.exists()) {
+        console.log('Creating a new chat:', combinedId);
         //create a chat in chats collection
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
 
@@ -70,6 +71,7 @@ const Search = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
+        console.log('Chat created successfully');
       }
     } catch (err) {}
 

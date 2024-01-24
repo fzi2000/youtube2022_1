@@ -352,3 +352,12 @@
     }
 
 }
+
+.myCallContainer {
+    width: 100vw;
+    height: 100vh;
+    border: 1px solid #ccc; /* Set a border color */
+    border-radius: 5px;
+    overflow: hidden;
+    color: blue;
+  }
