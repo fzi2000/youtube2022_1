@@ -353,11 +353,35 @@
 
 }
 
-.myCallContainer {
+.call-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  p {
+    font-size: 20px;
+    margin-bottom: 25px;
+  }
+  
+  button {
+    margin-top: 15px;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 0 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+  }
+
+  button.decline {
+    background-color: #e74c3c; /* Red color */
+  }
+  
+  .myCallContainer {
     width: 100vw;
     height: 100vh;
-    border: 1px solid #ccc; /* Set a border color */
-    border-radius: 5px;
-    overflow: hidden;
-    color: blue;
+    border: 1px solid #ccc;
+    margin-top: 20px;
   }

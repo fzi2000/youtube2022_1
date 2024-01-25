@@ -28,7 +28,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/video" element={<Video />} />
-      <Route path="/chat" component={Chat} />
+      <Route path="/chat" component={<Chat/>} />
     </Routes>
     {/* </Switch> */}
   </Router>;

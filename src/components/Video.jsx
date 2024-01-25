@@ -1,6 +1,9 @@
 // import * as React from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { ZegoSuperBoardManager } from "zego-superboard-web";
+import '../Style.scss';
 
 function randomID(len) {
   let result = '';
@@ -23,6 +26,8 @@ export function getUrlParams(
 }
 
 export default function App() {
+  const [isCallContainerVisible, setCallContainerVisible] = React.useState(true);
+ 
   const roomID = getUrlParams().get('roomID') || randomID(5);
 
   const myMeeting = async (element) => {
@@ -64,20 +69,33 @@ export default function App() {
     });
   };
 
+  const handleDeclineClick = () => {
+    // Go back to the previous page
+    window.history.back();
+  };
+
   const handleButtonClick = () => {
     const container = document.querySelector('.myCallContainer');
+    const callButtonContainer = document.querySelector('.call-container');
     if (container) {
       myMeeting(container);
-    }
+       }
+       if(callButtonContainer)
+       setCallContainerVisible(false); // Hide the call container
   };
 
   return (
-    <div>
+    <div className="call-container">
+      <p>Do you want to start a call? </p>
       <button onClick={handleButtonClick}>Call</button>
-      <div
-        className="myCallContainer"
-        style={{ width: '100vw', height: '100vh' }}
-      ></div>
+      <button onClick={handleDeclineClick} className="decline">Decline</button>
+       
+      {/* {isCallContainerVisible && ( */}
+        <div
+          className="myCallContainer"
+          style={{ width: '100vw', height: '100vh' }}
+        ></div>
+      {/* )} */}
     </div>
   );
 }
