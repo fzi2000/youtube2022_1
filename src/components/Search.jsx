@@ -16,12 +16,12 @@ const Search = () => {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
   const [err, setErr] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const { currentUser } = useContext(AuthContext);
 
   const handleSearch = async () => {
     const q = query(
-      collection(db, "users"),
+      collection(db, "users1"),
       where("displayName", "==", username)
     );
 
@@ -40,56 +40,68 @@ const Search = () => {
   };
 
   const handleSelect = async () => {
+    setIsLoading(true)
     //check whether the group(chats in firestore) exists, if not create
     const combinedId =
       currentUser.uid > user.uid
         ? currentUser.uid + user.uid
         : user.uid + currentUser.uid;
+
+        console.log(user.uid);
     try {
       const res = await getDoc(doc(db, "chats", combinedId));
 
       if (!res.exists()) {
-        console.log('Creating a new chat:', combinedId);
-        //create a chat in chats collection
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
-
-        //create user chats
+        console.log(currentUser.uid);
+        console.log(combinedId);
         await updateDoc(doc(db, "userChats", currentUser.uid), {
           [combinedId + ".userInfo"]: {
             uid: user.uid,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-          },
-          [combinedId + ".date"]: serverTimestamp(),
+            displayName: user.displayName
+            
+            // photoURL: user.photoURL
+          }
+
         });
 
         await updateDoc(doc(db, "userChats", user.uid), {
           [combinedId + ".userInfo"]: {
             uid: currentUser.uid,
-            displayName: currentUser.displayName,
-            photoURL: currentUser.photoURL,
-          },
-          [combinedId + ".date"]: serverTimestamp(),
+            displayName: currentUser.displayName
+            // photoURL: currentUser.photoURL
+          }
+          
         });
-        console.log('Chat created successfully');
+
+        setIsLoading(false);
+
+
       }
-    } catch (err) {}
+    } catch (err) { }
 
     setUser(null);
     setUsername("")
   };
   return (
     <div className="search">
-      <div className="searchForm">
-        <input
-          type="text"
-          placeholder="Find a user"
-          onKeyDown={handleKey}
-          onChange={(e) => setUsername(e.target.value)}
-          value={username}
-        />
-      </div>
+      {isLoading ? (
+        // Render a loading indicator, e.g., a spinner
+        <div>Loading...</div>
+      ) : (
+        <div className="searchForm">
+          <input
+            type="text"
+            placeholder="Find a user"
+            onKeyDown={handleKey}
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+          />
+        </div>
+      )}
+
       {err && <span>User not found!</span>}
+
       {user && (
         <div className="userChat" onClick={handleSelect}>
           <img src={user.photoURL} alt="" />
@@ -99,6 +111,7 @@ const Search = () => {
         </div>
       )}
     </div>
+
   );
 };
 

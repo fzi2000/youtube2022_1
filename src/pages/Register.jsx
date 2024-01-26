@@ -49,7 +49,7 @@ const Register = () => {
                     displayName: username,
                 });
  
-                setDoc(doc(db, "Users", uid), {
+                setDoc(doc(db, "users1", uid), {
                     uid: uid,
                     displayName: username,
                     email: email
@@ -57,6 +57,7 @@ const Register = () => {
                 })
                
                 setDoc(doc(db,"userChats",uid),{});
+                console.log("return of the gyat")
  
  
             })
