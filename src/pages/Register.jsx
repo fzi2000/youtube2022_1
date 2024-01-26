@@ -5,65 +5,75 @@ import { auth, storage, db } from '../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from 'firebase/firestore';
 import { useNavigate, Link } from 'react-router-dom';
-
+ 
 const Register = () => {
-
+ 
     const [err, setErr] = useState(false);
     const navigate = useNavigate();
-    
-    const handleSubmit = async (e) => {
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+ 
+   
+    const handleSignUpWithEmail = (e) => {
         e.preventDefault();
-
-        const displayName = e.target[0].value;
-        const email = e.target[1].value;
-        const password = e.target[2].value;
-        const file = e.target[3].files[0];
-
-        try {
-
-            const res = await createUserWithEmailAndPassword(auth, email, password);
-            const storageRef = ref(storage, displayName);
-            const uploadTask = uploadBytesResumable(storageRef, file);
-
-            uploadTask.on(
-                'state_changed',
-                null,
-                (error) => {
-                    setErr(true);
-                },
-                async () => {
-                    try {
-                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                        await updateProfile(res.user, {
-                            displayName,
-                            photoURL: downloadURL,
-                        });
-                        await setDoc(doc(db, 'users', res.user.uid), {
-                            uid: res.user.uid,
-                            displayName,
-                            email,
-                            photoURL: downloadURL,
-                        });
-                        navigate('/');  
-                    } catch (error) {
-                        setErr(true);
-                    }
-                }
-            );
-        } catch (error) {
-            setErr(true);
-            console.error(error);
-        }
+ 
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // const displayName = e.target[0].value;
+                // const email = e.target[1].value;
+                // const password = e.target[2].value;
+                // const file = e.target[3].files[0];
+                const user = userCredential.user;
+                const uid = user.uid;
+ 
+                // if (!displayName || !email || !password || !file) {
+                //     setErr("Invalid Entry")
+                //     return;
+                // }
+                // console.log(displayName , password);
+                // setSuccess(true);
+ 
+                // // Send email verification
+                // sendEmailVerification(user)
+                //     .then(() => {
+                //         // Verification email sent successfully
+                //         console.log("Verification email sent");
+                //     })
+                //     .catch((error) => {
+                //         // Handle email verification error
+                //         console.log("Error sending verification email:", error);
+                //     });
+ 
+                updateProfile(user, {
+                    displayName: username,
+                });
+ 
+                setDoc(doc(db, "Users", uid), {
+                    uid: uid,
+                    displayName: username,
+                    email: email
+                    // photoURL: getDownloadURL,
+                })
+               
+                setDoc(doc(db,"userChats",uid),{});
+ 
+ 
+            })
+            .catch((error) => {
+                // Handle sign-up errors
+                console.log("Error creating user:", error);
+            });
     };
     return (
         <div className='formContainer'>
             <div className="formWrapper">
                 <span className='logo'>Chat Application</span>
                 <span className='title'>Register</span>
-                <form onSubmit={handleSubmit} className='form' action="">
-                    <input type="text" placeholder='Display Name' />
-                    <input type="text" placeholder='Email' />
-                    <input type="password" placeholder='Password' />
+                <form onSubmit={handleSignUpWithEmail} className='form' action="">
+                    <input onChange={(e) => setUsername(e.target.value)} type="text" placeholder='Display Name' />
+                    <input onChange={(e) => setEmail(e.target.value)} type="text" placeholder='Email' />
+                    <input onChange={(e) => setPassword(e.target.value) }type="password" placeholder='Password' />
                     <input style={{ display: "none" }} type="file" name="" id="file" />
                     <label htmlFor="file">
                         {/* <FcAddImage size={32} className='uploadIcon' /> */}
@@ -74,7 +84,7 @@ const Register = () => {
                     {console.log(err)}
                 </form>
                 <p>Do you Have an Account ?
-
+ 
                     <Link to="/login">
                         Login
                     </Link>
@@ -83,5 +93,5 @@ const Register = () => {
         </div>
     )
 }
-
+ 
 export default Register
